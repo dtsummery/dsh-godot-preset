@@ -164,5 +164,14 @@
                 GODOT_PROJECT: D:/project/project-d
                 GODOT_BIN: D:/DevTools/runtime/Godot/Godot_v4.7.2-stable_win64.exe
                 BREAKPOINT_PRIVILEGED_GROUPS: code-execution
-                BREAKPOINT_TOOLSETS: "b,c,d"
+                # 2026-11-18 平面选择（实测 tools/list 计数）：
+                #   editor,cli,runtime,lsp,dap,resources = 221 工具 / 258,092B / ~71.7K tok
+                #   cli,runtime,lsp,dap,resources        =  73 工具 / 107,113B / ~29.8K tok
+                # 四平面全开：A 编辑器实时（148 工具，场景/节点/资源 CRUD + undo、
+                # 编辑器截图、项目设置、ClassDB）、B headless CLI、C 运行中游戏、D LSP/DAP。
+                # resources 组不增加工具数，只挂 4 个 MCP resource：
+                # godot://scene-tree、godot://editor-state、godot://runtime/tree、godot://runtime/log。
+                # 去掉 C# 的 cslsp+csdap：project-d 实测 572 个 .gd、0 个 .cs、无 csproj，
+                # 纯 GDScript 项目，cs_* 工具零损失；要调 C# 把 "csharp" 加进列表。
+                BREAKPOINT_TOOLSETS: "editor,cli,runtime,lsp,dap,resources"
               toolCallTimeoutMs: 600000

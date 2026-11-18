@@ -3,3 +3,5 @@
 *.bak-*
 *.bak_*
 node_modules/
+# MCP 握手验证脚本
+_probe/
