@@ -1,0 +1,5 @@
+# 本地备份与临时文件不入库
+*.bak
+*.bak-*
+*.bak_*
+node_modules/
