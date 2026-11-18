@@ -41,12 +41,31 @@ Plugins > Add plugin，target 填本仓库目录的绝对路径
 
 或让 agent 调 `plugin_manager`，`action: install_bundle`，`target` 填**绝对目录**。
 
-从远程安装：`install_bundle` 只接受本地绝对目录，所以先克隆再装。
+### 从 GitHub 安装（推荐）
+
+`install_bundle` 的 `target` 同样接受 git spec，会由 pnpm 拉取并登记到 profile：
+
+```text
+plugin_manager  action: install_bundle  target: github:dtsummery/dsh-godot-preset
+```
+
+等价于 profile 的 `package.json` 里写：
+
+```json
+"dependencies": { "@local/dsh-godot-preset": "github:dtsummery/dsh-godot-preset" }
+```
+
+装好后 `dsh.profile.bundles` 会自动登记该 bundle，`node_modules/@local/dsh-godot-preset`
+是**实体目录**（不是 `link:`），`pnpm-lock.yaml` 锁定到具体 commit 的 codeload tarball。
+
+只更新到最新 commit：
 
 ```bash
-git clone https://github.com/dtsummery/dsh-godot-preset.git D:/DSH_workspace_flash/godot-preset
-# 然后在 DSH 里对该目录执行 install_bundle
+cd ~/.dsh/profiles/<profile> && pnpm update @local/dsh-godot-preset
 ```
+
+**注意**：远程装之后，本仓库工作区的改动不会自动生效——必须 `git push` 再 update
+（或用 `link:` 方式装本地目录做开发）。
 
 ## 注意
 
